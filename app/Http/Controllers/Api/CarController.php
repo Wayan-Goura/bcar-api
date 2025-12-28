@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,53 +8,68 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * GET /api/cars
+     */
+    public function index()
     {
-        $query = Car::with('owner');
-
-        // Search by brand or model
-        if ($request->has('search')) {
-            $query->where('brand', 'like', "%{$request->search}%")
-                  ->orWhere('model', 'like', "%{$request->search}%");
-        }
-
-        // Filter by status
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
-
-        return response()->json($query->get());
+        return response()->json(Car::all());
     }
 
+    /**
+     * POST /api/cars
+     */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'owner_id' => 'required|exists:owners,id',
-            'brand' => 'required',
-            'model' => 'required',
-            'year' => 'required|integer',
-            'status' => 'in:active,sold,maintenance'
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'image' => 'nullable|string',
+            'price' => 'required|numeric',
+            'duration_hours' => 'required|integer',
+            'description' => 'nullable|string',
+            'recommend_passenger' => 'required|integer',
+            'max_passenger' => 'required|integer',
+            'facilities' => 'nullable|string',
         ]);
 
-        $car = Car::create($data);
-        return response()->json($car, 201);
+        $car = Car::create($validated);
+
+        return response()->json([
+            'message' => 'Car created successfully',
+            'data' => $car
+        ], 201);
     }
 
-    public function show($id)
+    /**
+     * GET /api/cars/{car}
+     */
+    public function show(Car $car)
     {
-        return response()->json(Car::with('owner')->findOrFail($id));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $car = Car::findOrFail($id);
-        $car->update($request->all());
         return response()->json($car);
     }
 
-    public function destroy($id)
+    /**
+     * PUT /api/cars/{car}
+     */
+    public function update(Request $request, Car $car)
     {
-        Car::destroy($id);
-        return response()->json(['message' => 'Car deleted']);
+        $car->update($request->all());
+
+        return response()->json([
+            'message' => 'Car updated successfully',
+            'data' => $car
+        ]);
+    }
+
+    /**
+     * DELETE /api/cars/{car}
+     */
+    public function destroy(Car $car)
+    {
+        $car->delete();
+
+        return response()->json([
+            'message' => 'Car deleted successfully'
+        ]);
     }
 }

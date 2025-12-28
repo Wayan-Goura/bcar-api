@@ -10,18 +10,21 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('cars', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('owner_id')->constrained('owners')->onDelete('cascade');
-            $table->string('brand');
-            $table->string('model');
-            $table->integer('year');
-            $table->enum('status', ['active', 'sold', 'maintenance'])->default('active');
-            $table->timestamps();
-        });
+        {
+            Schema::create('cars', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('image');
+                $table->integer('price');
+                $table->integer('duration_hours')->default(10);
+                $table->text('description')->nullable();
+                $table->integer('recommend_passenger');
+                $table->integer('max_passenger');
+                $table->text('facilities')->nullable();
+                $table->timestamps();
+            });
+        }
 
-    }
 
     /**
      * Reverse the migrations.

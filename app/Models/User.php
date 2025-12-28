@@ -2,17 +2,38 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Car extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = ['owner_id', 'brand', 'model', 'year', 'status'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'is_admin', // optional tapi disarankan
+    ];
 
-    public function owner()
+    protected $hidden = [
+        'password'
+    ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    public function bookCars()
+{
+    return $this->hasMany(BookCar::class);
+}
+
+    public function bookTours()
     {
-        return $this->belongsTo(Owner::class);
+        return $this->hasMany(BookTour::class);
     }
+
 }

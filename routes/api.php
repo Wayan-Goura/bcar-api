@@ -1,10 +1,42 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\OwnerController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CarController;
+use App\Http\Controllers\Api\TourController;
+use App\Http\Controllers\Api\BookCarController;
+use App\Http\Controllers\Api\BookTourController;
 
+/*
+|--------------------------------------------------------------------------
+| AUTH API
+|--------------------------------------------------------------------------
+*/
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::apiResource('owners', OwnerController::class);
-Route::apiResource('cars', CarController::class);
+/*
+|--------------------------------------------------------------------------
+| PUBLIC API (boleh diakses web / guest)
+|--------------------------------------------------------------------------
+*/
+Route::get('/cars', [CarController::class, 'index']);
+Route::get('/cars/{id}', [CarController::class, 'show']);
+
+Route::get('/tours', [TourController::class, 'index']);
+Route::get('/tours/{id}', [TourController::class, 'show']);
+
+/*
+|--------------------------------------------------------------------------
+| PROTECTED API
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('cars', CarController::class)->except(['index', 'show']);
+    Route::apiResource('tours', TourController::class)->except(['index', 'show']);
+
+    Route::apiResource('book-cars', BookCarController::class);
+    Route::apiResource('book-tours', BookTourController::class);
+});

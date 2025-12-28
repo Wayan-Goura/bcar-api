@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Car extends Model
+class Tour extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'image',
-        'price',
-        'duration_hours',
-        'description',
-        'recommend_passenger',
-        'max_passenger',
-        'facilities',
+        'cover_image',
+        'image_1', 'desc_1',
+        'image_2', 'desc_2',
+        'image_3', 'desc_3',
+        'image_4', 'desc_4',
     ];
 }
