@@ -1,59 +1,135 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 BCAR: API & Web Booking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-v12.0-FF2D20?style=flat&logo=laravel)](https://laravel.com)  
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php)](https://www.php.net/)  
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  
+[![Status](https://img.shields.io/badge/Status-Ready_for_UAS-blue)](https://github.com/)
 
-## About Laravel
+**BCAR** adalah aplikasi **Booking Car & Tour** berbasis Laravel yang menggabungkan **Web Application** dan **REST API** dengan konsep **CRUD**, **Authentication**, dan **Relasi Database**. Proyek ini dirancang menggunakan best practice agar dapat digunakan langsung melalui browser maupun diakses melalui API modern seperti Postman atau aplikasi mobile. Aplikasi terdiri dari tiga komponen utama:  
+1. **Web Application**: Digunakan oleh user untuk melakukan booking secara langsung melalui browser (menggunakan Session & Blade).  
+2. **REST API**: Menyediakan endpoint JSON untuk integrasi mobile atau pengujian Postman dengan token Bearer Laravel Sanctum.  
+3. **Admin Dashboard API**: Menyajikan statistik data, status booking, dan relasi antar modul secara real-time.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Dual-Interface System**: Separate logic for Web (Blade) and RESTful API (Sanctum).
+- **Smart Dashboard**: Real-time statistics for total cars, tours, and booking requests.
+- **Advanced CRUD**: Complete management for vehicles, tour packages, and client reservations.
+- **Search & Filter**: Find bookings by customer name or filter by status (Pending/Confirmed).
+- **Relational Data**: Seamless integration between Cars ↔ Bookings using Eloquent ORM.
+- **Secure Auth**: Token-based authentication for all API endpoints.
+- **Image Handling**: Integrated support for car and tour gallery thumbnails.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ⚙️ Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Komponen | Teknologi |
+| :--- | :--- |
+| **Backend** | Laravel 12 |
+| **Database** | MySQL |
+| **Authentication** | Laravel Sanctum (Bearer Token) |
+| **API Testing** | Postman |
+| **Web Template** | Blade Engine |
+| **Server** | PHP 8.2+ |
 
-## Laravel Sponsors
+---
+### 🔐 Authentication
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/login` | Mendapatkan access token (Bearer) |
+| `POST` | `/api/logout` | Revoke / menghapus access token |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🚙 Car & Tour Management
+| Modul | Method | Endpoint | Description |
+| :--- | :--- | :--- | :--- |
+| **Cars** | `GET/POST/PUT/DELETE` | `/api/cars` | Manajemen armada mobil |
+| **Tours** | `GET/POST/PUT/DELETE` | `/api/tours` | Manajemen paket tour |
+| **Bookings** | `POST` | `/api/book-cars` | Kirim reservasi mobil baru |
+| **Bookings** | `GET` | `/api/book-tours` | Tarik semua riwayat tour |
+| **Dashboard** | `GET` | `/api/dashboard` | Statistik & aktivitas terbaru |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🔍 Search & Filter Implementation
 
-## Contributing
+Sistem ini mendukung pencarian dinamis melalui **URL Parameters** untuk memudahkan integrasi frontend:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **Search by Name**: `GET /api/book-cars?search=John`  
+    *Mencari data booking berdasarkan nama pemesan.*
+* **Filter by Status**: `GET /api/book-tours?status=pending`  
+    *Menyaring data berdasarkan status (pending, confirmed, dll).*
+* **Dashboard Summary**:  
+    *Menampilkan total pendapatan dan jumlah antrian booking secara otomatis.*
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🛠️ How to Setup (Local)
 
-## Security Vulnerabilities
+Ikuti langkah-langkah berikut untuk menjalankan project di lingkungan lokal:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1.  **Clone Repository**
+    ```bash
+    git clone [https://github.com/username/bcar-system.git](https://github.com/username/bcar-system.git)
+    cd bcar-system
+    ```
 
-## License
+2.  **Install Dependencies**
+    ```bash
+    composer install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3.  **Konfigurasi Environment**
+    Salin file `.env.example` menjadi `.env` dan sesuaikan kredensial database Anda:
+    - `DB_DATABASE=nama_database`
+    - `DB_USERNAME=root`
+    - `DB_PASSWORD=password`
+
+4.  **Generate Key & Migrate**
+    ```bash
+    php artisan key:generate
+    php artisan migrate --seed
+    ```
+
+5.  **Jalankan Aplikasi**
+    ```bash
+    php artisan serve
+    ```
+
+---
+
+## 👨‍🎓 Catatan Akademik
+
+Project BCAR telah memenuhi kriteria penilaian **UAS Web Programming / Backend Development**:
+
+* ✅ **CRUD**: Implementasi lengkap (Create, Read, Update, Delete) pada semua modul utama.
+* ✅ **Authentication**: Keamanan API terjamin menggunakan Laravel Sanctum.
+* ✅ **Relasi Database**: Menghubungkan tabel secara efisien (**Car ↔ BookCar** & **Tour ↔ BookTour**).
+* ✅ **REST API**: Standarisasi respon JSON dengan HTTP Status Code yang akurat.
+* ✅ **Dashboard**: Menampilkan data agregat untuk membantu pengambilan keputusan admin.
+
+---
+## 🗂️ Struktur Project
+
+Folder dan file utama yang menangani logika aplikasi:
+
+```text
+app/
+├── Http/Controllers/
+│   ├── Api/                    
+│   │   ├── AuthController.php      # Login & Token Management
+│   │   ├── CarController.php       # Resource Mobil
+│   │   ├── TourController.php      # Resource Tour
+│   │   ├── BookCarController.php   # Transaksi Booking Mobil
+│   │   ├── BookTourController.php  # Transaksi Booking Tour
+│   │   └── DashboardController.php # Agregasi Data & Stats
+├── Models/                     
+│   ├── Car.php                 # Relasi HasMany ke BookCar
+│   ├── Tour.php                # Relasi HasMany ke BookTour
+│   ├── BookCar.php             # Relasi BelongsTo ke Car
+│   └── BookTour.php            # Relasi BelongsTo ke Tour
+routes/
+├── web.php                     # Rute untuk UI Browser (Session)
+└── api.php                     # Rute untuk RESTful API (Stateless)
