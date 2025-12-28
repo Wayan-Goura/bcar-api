@@ -20,6 +20,7 @@ class TourController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'cover_image' => 'nullable|string',
+            'price' => 'required|numeric',
             'image_1' => 'nullable|string',
             'desc_1' => 'nullable|string',
             'image_2' => 'nullable|string',

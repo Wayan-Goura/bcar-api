@@ -17,6 +17,19 @@
         position: relative;
         overflow: hidden;
     }
+    /* Badge Harga di atas Gambar */
+    .price-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #0d6efd;
+        font-weight: 700;
+        padding: 5px 15px;
+        border-radius: 50px;
+        z-index: 10;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
     .tour-card img {
         transition: transform 0.5s ease;
     }
@@ -42,6 +55,9 @@
         <div class="col-lg-3 col-md-6">
             <div class="card tour-card h-100 shadow-sm text-center">
                 <div class="tour-img-wrapper">
+                    <div class="price-badge">
+                        Rp {{ number_format($tour->price, 0, ',', '.') }}
+                    </div>
                     <img src="{{ asset('storage/'.$tour->cover_image) }}"
                          class="card-img-top"
                          style="height:220px; object-fit:cover"
@@ -52,9 +68,12 @@
                     <h5 class="fw-bold text-dark mb-3">{{ $tour->name }}</h5>
                     
                     <div class="mt-auto">
+                        <div class="mb-3 text-primary fw-bold">
+                            Starts from Rp {{ number_format($tour->price, 0, ',', '.') }}
+                        </div>
                         <a href="{{ route('tours.show', $tour) }}"
                            class="btn btn-outline-primary btn-detail w-100 py-2">
-                           View Details
+                            View Details
                         </a>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\TourController;
 use App\Http\Controllers\Api\BookCarController;
 use App\Http\Controllers\Api\BookTourController;
+use App\Http\Controllers\Api\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::get('/tours/{id}', [TourController::class, 'show']);
 | PROTECTED API
 |--------------------------------------------------------------------------
 */
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);

@@ -12,9 +12,15 @@ class Tour extends Model
     protected $fillable = [
         'name',
         'cover_image',
+        'price',
         'image_1', 'desc_1',
         'image_2', 'desc_2',
         'image_3', 'desc_3',
         'image_4', 'desc_4',
     ];
+
+    public function bookTours()
+    {
+        return $this->hasMany(BookTour::class);
+    }
 }

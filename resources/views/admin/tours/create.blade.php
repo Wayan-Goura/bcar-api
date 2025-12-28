@@ -15,12 +15,17 @@
                     
                     {{-- BASIC INFO --}}
                     <div class="row g-4 mb-4">
-                        <div class="col-md-7">
+                        <div class="col-md-5">
                             <label class="form-label small fw-bold text-muted">Tour Name</label>
                             <input name="name" class="form-control rounded-3 py-2" placeholder="e.g. Bali Cultural Tour" required>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted">Price (IDR)</label>
+                            <input type="number" name="price" class="form-control rounded-3 py-2" placeholder="e.g. 500000" required>
+                        </div>
+
+                        <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Cover Image (Main Display)</label>
                             <input type="file" name="cover_image" class="form-control rounded-3 py-2" required>
                         </div>
@@ -32,14 +37,14 @@
 
                     {{-- DETAIL IMAGES --}}
                     @for($i=1;$i<=4;$i++)
-                    <div class="row g-4 mb-4 align-items-start p-3 rounded-3 bg-light mx-0">
+                    <div class="row g-4 mb-4 align-items-start p-3 rounded-3 bg-light mx-0 border">
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Section Image {{ $i }}</label>
-                            <input type="file" name="image_{{ $i }}" class="form-control rounded-3">
+                            <input type="file" name="image_{{ $i }}" class="form-control rounded-3 bg-white">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label small fw-bold text-muted">Description {{ $i }}</label>
-                            <textarea name="desc_{{ $i }}" rows="3" class="form-control rounded-3" placeholder="Describe this specific part of the tour..."></textarea>
+                            <textarea name="desc_{{ $i }}" rows="3" class="form-control rounded-3 bg-white" placeholder="Describe this specific part of the tour..."></textarea>
                         </div>
                     </div>
                     @endfor
@@ -55,11 +60,4 @@
         </form>
     </div>
 </div>
-
-<style>
-    .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
-    }
-</style>
 @endsection

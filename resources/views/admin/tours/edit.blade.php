@@ -3,7 +3,7 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-11">
-        <div class="d-flex align-items-center mb-4 text-warning">
+        <div class="d-flex align-items-center mb-4">
             <h4 class="fw-bold m-0 text-dark">📝 Edit Tour: <span class="text-primary">{{ $tour->name }}</span></h4>
         </div>
 
@@ -16,15 +16,20 @@
 
                     {{-- BASIC INFO --}}
                     <div class="row g-4 mb-4">
-                        <div class="col-md-7">
+                        <div class="col-md-5">
                             <label class="form-label small fw-bold text-muted">Tour Name</label>
                             <input name="name" value="{{ $tour->name }}" class="form-control rounded-3 py-2" required>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted">Price (IDR)</label>
+                            <input type="number" name="price" value="{{ $tour->price }}" class="form-control rounded-3 py-2" required>
+                        </div>
+
+                        <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Cover Image</label>
                             @if($tour->cover_image)
-                                <div class="mb-2"><img src="{{ asset('storage/'.$tour->cover_image) }}" class="rounded shadow-sm" style="height:60px"></div>
+                                <div class="mb-2"><img src="{{ asset('storage/'.$tour->cover_image) }}" class="rounded shadow-sm" style="height:50px"></div>
                             @endif
                             <input type="file" name="cover_image" class="form-control rounded-3 py-2">
                         </div>
@@ -40,13 +45,13 @@
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Section Image {{ $i }}</label>
                             @if($tour->{'image_'.$i})
-                                <div class="mb-2"><img src="{{ asset('storage/'.$tour->{'image_'.$i}) }}" class="rounded shadow-sm" style="height:60px"></div>
+                                <div class="mb-2"><img src="{{ asset('storage/'.$tour->{'image_'.$i}) }}" class="rounded shadow-sm" style="height:50px"></div>
                             @endif
-                            <input type="file" name="image_{{ $i }}" class="form-control rounded-3">
+                            <input type="file" name="image_{{ $i }}" class="form-control rounded-3 bg-white">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label small fw-bold text-muted">Description {{ $i }}</label>
-                            <textarea name="desc_{{ $i }}" rows="3" class="form-control rounded-3">{{ $tour->{'desc_'.$i} }}</textarea>
+                            <textarea name="desc_{{ $i }}" rows="3" class="form-control rounded-3 bg-white">{{ $tour->{'desc_'.$i} }}</textarea>
                         </div>
                     </div>
                     @endfor

@@ -150,10 +150,10 @@
         <h2 class="section-title display-5">Paket Wisata Pilihan</h2>
         <div class="title-line"></div>
         <div class="row g-4 justify-content-center">
-            @foreach(['pasihbe.jpg' => 'Pasih Be', 'paket2.jpg' => 'Paket Wisata 2', 'paket3.jpg' => 'Paket Wisata 3', 'paket4.jpg' => 'Paket Wisata 4'] as $img => $title)
+            @foreach(['paket1.jpg' => 'Paket 1', 'paket2.jpg' => 'Paket Wisata 2', 'paket3.jpg' => 'Paket Wisata 3', 'paket4.jpg' => 'Paket Wisata 4'] as $img => $title)
             <div class="col-lg-3 col-md-6">
                 <div class="card tour-card h-100 border-0 shadow-sm">
-                    <img src="{{ asset('image/' . $img) }}" class="card-img-top" style="height: 280px; object-fit: cover;">
+                    <img src="{{ asset('image/paketwisata/' . $img) }}" class="card-img-top" style="height: 280px; object-fit: cover;">
                     <div class="tour-overlay"><h6 class="fw-bold mb-0 text-white">{{ $title }}</h6></div>
                 </div>
             </div>
@@ -165,35 +165,79 @@
 
 {{-- 🧑‍🤝‍🧑 TOUR GUIDES --}}
 <section class="container my-5 py-5 text-center">
-    <h2 class="section-title display-5">Pemandu Wisata Profesional</h2>
-    <div class="title-line"></div>
+    <h2 class="section-title display-5 fw-bold">Pemandu Wisata Profesional</h2>
+    <div class="title-line mb-5" style="width: 60px; height: 4px; background: #FFC107; margin: 10px auto; border-radius: 10px;"></div>
+    
     <div class="row g-4">
-        @for($i=1;$i<=4;$i++)
+        @php
+            // Daftar Pemandu: Sesuaikan nama file foto di folder public/image/pemandu/
+            $guides = [
+                ['name' => 'Made Sukra', 'specialist' => 'Budaya & Sejarah', 'photo' => 'pemandu2.jpg'],
+                ['name' => 'Putu Ayu', 'specialist' => 'Wisata Kuliner', 'photo' => 'pemandu1.jpg'],
+                ['name' => 'Gede Dharma', 'specialist' => 'Petualangan Alam', 'photo' => 'pemandu4.jpg'],
+                ['name' => 'Ketut Sari', 'specialist' => 'Fotografi Wisata', 'photo' => 'pemandu3.jpg'],
+            ];
+        @endphp
+
+        @foreach($guides as $guide)
         <div class="col-lg-3 col-md-6">
-            <div class="card border-0 shadow-sm p-4 h-100">
-                <img src="https://ui-avatars.com/api/?name=Guide+{{ $i }}&background=0D6EFD&color=fff" class="rounded-circle mb-3 mx-auto" style="width: 80px;">
-                <h5 class="fw-bold mb-1">Pemandu {{ $i }}</h5>
-                <p class="text-primary small fw-bold mb-0">Spesialis Wisata Budaya</p>
+            <div class="card border-0 shadow-sm p-4 h-100 guide-card">
+                {{-- Foto Lingkaran --}}
+                <div class="guide-img-container mb-3 mx-auto">
+                    <img src="{{ asset('image/pemandu/' . $guide['photo']) }}" 
+                         class="rounded-circle shadow-sm" 
+                         alt="{{ $guide['name'] }}"
+                         style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
+                </div>
+                
+                <h5 class="fw-bold mb-1 text-dark">{{ $guide['name'] }}</h5>
+                <p class="text-primary small fw-bold mb-2">{{ $guide['specialist'] }}</p>
+                
+                <div class="social-links mt-2">
+                    <span class="badge bg-light text-muted fw-normal p-2">⭐ 4.9 Rating</span>
+                </div>
             </div>
         </div>
-        @endfor
+        @endforeach
     </div>
 </section>
-
 {{-- 👨‍✈️ OUR DRIVERS --}}
 <section class="bg-light py-5 text-center">
     <div class="container py-4">
-        <h2 class="section-title display-5">Pengemudi Terpercaya</h2>
-        <div class="title-line"></div>
+        <h2 class="section-title display-5 fw-bold">Pengemudi Terpercaya</h2>
+        <div class="title-line mb-5" style="width: 60px; height: 4px; background: #FFC107; margin: 10px auto; border-radius: 10px;"></div>
+        
         <div class="row g-4">
-            @for($i=1;$i<=4;$i++)
+            @php
+                // Daftar driver kamu - Sesuaikan nama file dengan yang ada di folder public/img/drivers/
+                $drivers = [
+                    ['name' => 'Budi Santoso', 'photo' => 'driver1.jpg', 'rating' => 5],
+                    ['name' => 'Agus Wijaya', 'photo' => 'driver2.jpg', 'rating' => 5],
+                    ['name' => 'I Wayan Bali', 'photo' => 'driver3.jpg', 'rating' => 5],
+                    ['name' => 'Slamet Riyadi', 'photo' => 'driver4.jpg', 'rating' => 5],
+                ];
+            @endphp
+
+            @foreach($drivers as $driver)
             <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm overflow-hidden h-100">
-                    <img src="https://via.placeholder.com/300x200?text=Driver+{{ $i }}" class="card-img-top" style="height: 180px; object-fit: cover;">
-                    <div class="card-body"><h5 class="fw-bold mb-1">Pengemudi {{ $i }}</h5><div class="text-warning small">★★★★★</div></div>
+                <div class="card border-0 shadow-sm overflow-hidden h-100 driver-card">
+                    <div class="img-wrapper" style="overflow: hidden;">
+                        {{-- Pastikan foto diletakkan di: public/assets/img/drivers/ --}}
+                        <img src="{{ asset('image/driver/' . $driver['photo']) }}" 
+                             class="card-img-top" 
+                             alt="{{ $driver['name'] }}"
+                             style="height: 250px; object-fit: cover; transition: 0.3s;">
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="fw-bold mb-1">{{ $driver['name'] }}</h5>
+                        <div class="text-warning small">
+                            @for($s=0; $s<$driver['rating']; $s++) ★ @endfor
+                        </div>
+                        <p class="text-muted small mb-0">Professional Driver</p>
+                    </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 </section>

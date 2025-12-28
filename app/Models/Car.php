@@ -19,4 +19,8 @@ class Car extends Model
         'max_passenger',
         'facilities',
     ];
+    public function bookCars()
+    {
+        return $this->hasMany(BookCar::class);
+    }
 }
