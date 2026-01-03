@@ -8,17 +8,31 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    /**
-     * GET /api/cars
-     */
-    public function index()
-    {
-        return response()->json(Car::all());
+    public function index(Request $request)
+{
+    $query = Car::query();
+
+    // 🔍 SEARCH by name
+    if ($request->filled('search')) {
+        $query->where('name', 'LIKE', '%' . $request->search . '%');
     }
 
-    /**
-     * POST /api/cars
-     */
+    // 💰 FILTER min price
+    if ($request->filled('min_price')) {
+        $query->where('price', '>=', $request->min_price);
+    }
+
+    // 💰 FILTER max price
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->max_price);
+    }
+
+    return response()->json(
+        $query->latest()->get()
+    );
+}
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,17 +54,11 @@ class CarController extends Controller
         ], 201);
     }
 
-    /**
-     * GET /api/cars/{car}
-     */
     public function show(Car $car)
     {
         return response()->json($car);
     }
 
-    /**
-     * PUT /api/cars/{car}
-     */
     public function update(Request $request, Car $car)
     {
         $car->update($request->all());
@@ -61,9 +69,6 @@ class CarController extends Controller
         ]);
     }
 
-    /**
-     * DELETE /api/cars/{car}
-     */
     public function destroy(Car $car)
     {
         $car->delete();

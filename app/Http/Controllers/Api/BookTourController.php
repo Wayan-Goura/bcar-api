@@ -9,13 +9,32 @@ use Illuminate\Http\Request;
 
 class BookTourController extends Controller
 {
-    public function index()
-    {
-        return response()->json(
-            BookTour::with('tour')->latest()->get()
-        );
+    public function index(Request $request)
+{
+    $query = BookTour::with('tour');
+
+    // ✅ FILTER STATUS
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
     }
 
+        if ($request->filled('id')) {
+        $query->where('id', $request->id);
+    }
+
+    // ✅ SEARCH (nilai plus UAS)
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search . '%')
+              ->orWhere('email', 'like', '%' . $request->search . '%')
+                ->orWhere('tour_name', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    return response()->json(
+        $query->latest()->get()
+    );
+}
     public function store(Request $r)
     {
         $r->validate([

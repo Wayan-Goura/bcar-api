@@ -9,10 +9,29 @@ use Illuminate\Http\Request;
 class TourController extends Controller
 {
     // GET /api/tours
-    public function index()
-    {
-        return response()->json(Tour::all());
+        public function index(Request $request)
+{
+    $query = Tour::query();
+
+    // 🔍 SEARCH by name
+    if ($request->filled('search')) {
+        $query->where('name', 'LIKE', '%' . $request->search . '%');
     }
+
+    // 💰 FILTER min price
+    if ($request->filled('min_price')) {
+        $query->where('price', '>=', $request->min_price);
+    }
+
+    // 💰 FILTER max price
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->max_price);
+    }
+
+    return response()->json(
+        $query->latest()->get()
+    );
+}
 
     // POST /api/tours
     public function store(Request $request)

@@ -9,12 +9,33 @@ use Illuminate\Http\Request;
 
 class BookCarController extends Controller
 {
-    public function index()
-    {
-        return response()->json(
-            BookCar::with('car')->latest()->get()
-        );
+    public function index(Request $request)
+{
+    $query = BookCar::with('car');
+
+    // ✅ FILTER STATUS
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
     }
+
+        if ($request->filled('id')) {
+        $query->where('id', $request->id);
+    }
+
+    // ✅ SEARCH (nilai plus UAS)
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search . '%')
+              ->orWhere('email', 'like', '%' . $request->search . '%')
+              ->orWhere('car_name', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    return response()->json(
+        $query->latest()->get()
+    );
+}
+
 
     public function store(Request $r)
     {

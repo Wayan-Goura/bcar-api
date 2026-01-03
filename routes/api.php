@@ -21,7 +21,7 @@ Route::post('/login', [AuthController::class, 'login']);
 |--------------------------------------------------------------------------
 */
 Route::get('/cars', [CarController::class, 'index']);
-Route::get('/cars/{id}', [CarController::class, 'show']);
+Route::get('/cars/{car}', [CarController::class, 'show']);
 
 Route::get('/tours', [TourController::class, 'index']);
 Route::get('/tours/{id}', [TourController::class, 'show']);
@@ -40,6 +40,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('cars', CarController::class)->except(['index', 'show']);
     Route::apiResource('tours', TourController::class)->except(['index', 'show']);
 
-    Route::apiResource('book-cars', BookCarController::class);
-    Route::apiResource('book-tours', BookTourController::class);
+     Route::get('/book-cars', [BookCarController::class, 'index']);
+    Route::post('/book-cars', [BookCarController::class, 'store']);
+
+    Route::put('/book-cars/{id}/approve', [BookCarController::class, 'approve']);
+    Route::put('/book-cars/{id}/complete', [BookCarController::class, 'complete']);
+    Route::delete('/book-cars/{id}', [BookCarController::class, 'cancel']);
+
+    Route::delete('/book-tours/{id}', [BookTourController::class, 'cancel']);
+    Route::get('/book-tours', [BookTourController::class, 'index']);
+    Route::post('/book-tours', [BookTourController::class, 'store']);
+
+    Route::put('/book-tours/{id}/approve', [BookTourController::class, 'approve']);
+    Route::put('/book-tours/{id}/complete', [BookTourController::class, 'complete']);
+
+    Route::delete('/book-tours/{id}', [BookTourController::class, 'cancel']);
 });
