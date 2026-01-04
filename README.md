@@ -72,8 +72,8 @@ Ikuti langkah-langkah berikut untuk menjalankan project di lingkungan lokal:
 
 1.  **Clone Repository**
     ```bash
-    git clone [https://github.com/username/bcar-system.git](https://github.com/username/bcar-system.git)
-    cd bcar-system
+    git clone [[https://github.com/username/bcar-system.git](https://github.com/username/bcar-system.git)
+    cd bcar-system](https://github.com/Wayan-Goura/bcar-api.git)
     ```
 
 2.  **Install Dependencies**
@@ -83,13 +83,12 @@ Ikuti langkah-langkah berikut untuk menjalankan project di lingkungan lokal:
 
 3.  **Konfigurasi Environment**
     Salin file `.env.example` menjadi `.env` dan sesuaikan kredensial database Anda:
-    - `DB_DATABASE=nama_database`
+    - `DB_DATABASE=bcars_db`
     - `DB_USERNAME=root`
     - `DB_PASSWORD=password`
 
 4.  **Generate Key & Migrate**
     ```bash
-    php artisan key:generate
     php artisan migrate --seed
     ```
 
@@ -130,6 +129,9 @@ app/
 │   ├── Tour.php                # Relasi HasMany ke BookTour
 │   ├── BookCar.php             # Relasi BelongsTo ke Car
 │   └── BookTour.php            # Relasi BelongsTo ke Tour
+    └── Review.php             
+    └── User.php               
+    
 routes/
 ├── web.php                     # Rute untuk UI Browser (Session)
 └── api.php                     # Rute untuk RESTful API (Stateless)
